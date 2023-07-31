@@ -1,4 +1,4 @@
-const { StringSelectMenuBuilder, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextInputStyle, bold } = require('discord.js');
+const { StringSelectMenuBuilder, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextInputStyle, bold, codeBlock } = require('discord.js');
 const logger = require("../logging/logger.js");
 
 module.exports = {
@@ -56,10 +56,13 @@ module.exports = {
             await i.showModal(modal);
         });
 
+        const submitted = await interaction.channel.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => logger.error(error));
 
-        // Show Modal
+        if (submitted) {
+            data.suggestion = submitted.fields.getTextInputValue('suggestion-modal-suggestion');
 
-        // Collect Modal
+            await submitted.reply({ content: codeBlock(data.suggestion), ephemeral: true });
+        }
 
         // Send to Thread
     },
