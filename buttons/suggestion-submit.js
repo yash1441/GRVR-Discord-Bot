@@ -28,18 +28,18 @@ module.exports = {
 
         const row = new ActionRowBuilder().addComponents(selectMenu);
 
-        const response = await interaction.reply({
+        await interaction.reply({
             content: bold('Select Suggestion Category'),
             components: [row],
             ephemeral: true
         });
 
+        const response = interaction.fetchReply();
+
         const collector = await response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 15_000 });
 
         collector.on('collect', async i => {
             data.category = i.values[0];
-
-            console.log(i);
 
             const modal = new ModalBuilder()
                 .setCustomId('suggestion-modal')
@@ -69,9 +69,9 @@ module.exports = {
             } else interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
         });
 
-        // collector.on('end',(collected, reason)  => {
-        //     if (reason === 'time' && !collected.size) interaction.editReply({ content: 'Too slow, try again.', components: [], ephemeral: true });
-        // });
+        collector.on('end',(collected, reason)  => {
+            if (reason === 'time' && !collected.size) interaction.editReply({ content: 'Too slow, try again.', components: [], ephemeral: true });
+        });
     },
 };
 
