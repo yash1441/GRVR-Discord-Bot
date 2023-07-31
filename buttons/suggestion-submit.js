@@ -51,7 +51,7 @@ module.exports = {
             const modalRow = new ActionRowBuilder().addComponents(suggestion);
 
             modal.addComponents(modalRow);
-            await response.edit({ content: `${i.user} has selected ${selection}!`, components: [] });
+            await response.edit({ content: `${i.user} has selected ${data.category}!`, components: [] });
 
             await i.showModal(modal);
         });
