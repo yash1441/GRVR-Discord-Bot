@@ -58,7 +58,10 @@ module.exports = {
 
             await i.showModal(modal);
 
-            const submitted = await interaction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => logger.error(error));
+            const submitted = await interaction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => {
+                interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
+                return null;
+            });
 
             if (submitted) {
                 data.suggestion = submitted.fields.getTextInputValue('suggestion-modal-suggestion');
@@ -66,7 +69,7 @@ module.exports = {
                 await submitted.reply({ content: codeBlock(data.suggestion), ephemeral: true });
 
                 sendSuggestion(interaction, data);
-            } else interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
+            }
         });
 
         collector.on('end',(collected, reason)  => {
