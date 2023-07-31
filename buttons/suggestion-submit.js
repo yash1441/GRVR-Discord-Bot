@@ -34,7 +34,7 @@ module.exports = {
             ephemeral: true
         });
 
-        const response = interaction.fetchReply();
+        const response = await interaction.fetchReply();
 
         const collector = await response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 15_000 });
 
