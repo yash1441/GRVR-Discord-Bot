@@ -30,7 +30,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 
 		logger.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
-		logger.error(error);
+		logger.error(JSON.stringify(error));
 	}
 })();
 
