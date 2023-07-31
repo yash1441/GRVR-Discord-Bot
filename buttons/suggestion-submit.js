@@ -34,13 +34,12 @@ module.exports = {
 
         const collectorFilter = i => {
             i.deferUpdate();
-            console.log(i);
             return i.user.id === interaction.user.id;
         };
 
         message.awaitMessageComponent({ filter: collectorFilter, componentType: ComponentType.StringSelect, time: 15000 })
             .then(interaction => {
-                console.log(interaction);
+                console.log(interaction.values);
                 interaction.reply(`You selected ${interaction.values.join(', ')}!`)
             })
             .catch(err => {
