@@ -34,11 +34,15 @@ module.exports = {
 
         const collectorFilter = i => {
             i.deferUpdate();
+            console.log(i);
             return i.user.id === interaction.user.id;
         };
 
         message.awaitMessageComponent({ filter: collectorFilter, componentType: ComponentType.StringSelect, time: 15000 })
-            .then(interaction => interaction.reply(`You selected ${interaction.values.join(', ')}!`))
+            .then(interaction => {
+                console.log(interaction);
+                interaction.reply(`You selected ${interaction.values.join(', ')}!`)
+            })
             .catch(err => {
                 console.log(err);
                 logger.debug('No interactions were collected.')
