@@ -34,11 +34,9 @@ module.exports = {
             ephemeral: true
         });
 
-        logger.debug('trying to collect');
+        console.log(response);
 
-        const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 15_000 });
-
-        console.log(collector);
+        const collector = await response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 15_000 });
 
         collector.on('collect', async i => {
             data.category = i.values[0];
