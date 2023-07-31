@@ -21,16 +21,16 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 
 (async () => {
 	try {
-		logger.log(`Started refreshing ${commands.length} application (/) commands.`);
+		logger.info(`Started refreshing ${commands.length} application (/) commands.`);
 
 		const data = await rest.put(
 			Routes.applicationCommands(process.env.BOT_ID),
 			{ body: commands },
 		);
 
-		logger.log(`Successfully reloaded ${data.length} application (/) commands.`);
+		logger.info(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
-		console.error(error);
+		logger.error(error);
 	}
 })();
 
