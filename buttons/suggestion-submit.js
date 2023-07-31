@@ -39,7 +39,7 @@ module.exports = {
 
         message.awaitMessageComponent({ filter: collectorFilter, componentType: ComponentType.StringSelect, time: 15000 })
             .then(i => {
-                i.update({ content: `You selected ${i.values.join(', ')}!`, components:[] });
+                i.editReply({ content: `You selected ${i.values.join(', ')}!`, components:[] });
             })
             .catch(err => {
                 console.log(err);
