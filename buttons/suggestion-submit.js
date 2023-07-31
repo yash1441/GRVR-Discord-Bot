@@ -59,7 +59,7 @@ module.exports = {
             await i.showModal(modal);
         });
 
-        const submitted = await selectMenuInteraction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => console.log(error));
+        const submitted = await interaction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => logger.error(error));
 
         if (submitted) {
             data.suggestion = submitted.fields.getTextInputValue('suggestion-modal-suggestion');
