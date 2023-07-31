@@ -17,7 +17,7 @@ for (const file of commandFiles) {
 	commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN);
+const rest = new REST().setToken(process.env.BOT_TOKEN);
 
 (async () => {
 	try {
@@ -30,7 +30,7 @@ const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN);
 
 		logger.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
-		logger.error(JSON.stringify(error));
+		console.error(error);
 	}
 })();
 
