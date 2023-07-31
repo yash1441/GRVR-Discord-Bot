@@ -3,8 +3,7 @@ const logger = require("../logging/logger.js");
 
 module.exports = {
     data: {
-        name: 'suggestion-submit',
-        type: 'BUTTON'
+        name: 'suggestion-submit'
     },
     async execute(interaction) {
         const selectMenu = new StringSelectMenuBuilder()
