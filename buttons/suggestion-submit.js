@@ -36,7 +36,7 @@ module.exports = {
 
         collector.on('collect', async i => {
             const selection = i.values[0];
-            await interaction.editReply(`${i.user} has selected ${selection}!`);
+            await interaction.editReply({ content: `${i.user} has selected ${selection}!`, row: [] });
         });
     },
 };
