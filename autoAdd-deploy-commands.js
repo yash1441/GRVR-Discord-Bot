@@ -23,7 +23,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
 		const data = await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
+			Routes.applicationCommands(process.env.BOT_ID),
 			{ body: commands },
 		);
 
