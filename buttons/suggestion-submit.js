@@ -34,7 +34,11 @@ module.exports = {
             ephemeral: true
         });
 
+        logger.debug('trying to collect');
+
         const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 15_000 });
+
+        console.log(collector);
 
         collector.on('collect', async i => {
             data.category = i.values[0];
@@ -58,15 +62,15 @@ module.exports = {
 
             await i.showModal(modal);
 
-            // const submitted = await interaction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => logger.error(error));
+            const submitted = await interaction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => logger.error(error));
 
-            // if (submitted) {
-            //     data.suggestion = submitted.fields.getTextInputValue('suggestion-modal-suggestion');
+            if (submitted) {
+                data.suggestion = submitted.fields.getTextInputValue('suggestion-modal-suggestion');
 
-            //     await submitted.reply({ content: codeBlock(data.suggestion), ephemeral: true });
+                await submitted.reply({ content: codeBlock(data.suggestion), ephemeral: true });
 
-            //     sendSuggestion(interaction, data);
-            // } else interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
+                sendSuggestion(interaction, data);
+            } else interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
         });
 
         // collector.on('end',(collected, reason)  => {
