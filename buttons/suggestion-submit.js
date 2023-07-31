@@ -35,7 +35,10 @@ module.exports = {
 
         const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 15_000 });
 
+        let selectMenuInteraction;
+
         collector.on('collect', async i => {
+            selectMenuInteraction = i;
             data.category = i.values[0];
 
             const modal = new ModalBuilder()
@@ -56,7 +59,7 @@ module.exports = {
             await i.showModal(modal);
         });
 
-        const submitted = await interaction.channel.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => logger.error(error));
+        const submitted = await selectMenuInteraction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => logger.error(error));
 
         if (submitted) {
             data.suggestion = submitted.fields.getTextInputValue('suggestion-modal-suggestion');
