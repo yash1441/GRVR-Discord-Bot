@@ -71,7 +71,7 @@ module.exports = {
         });
 
         collector.on('end',(collected, reason)  => {
-            if (reason === 'time') logger.debug('time');
+            if (reason === 'time' && !collected) interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
         });
     },
 };
