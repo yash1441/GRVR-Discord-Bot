@@ -37,7 +37,7 @@ module.exports = {
 
             const row = new ActionRowBuilder().addComponents([button]);
 
-            interaction.channel.send({ embeds: [embed], components: [row] }).catch((error) => {
+            interaction.channel.send({ embeds: [embed], components: [row] }).then(() => interaction.deleteReply()).catch((error) => {
                 logger.error(error);
                 interaction.reply({ content: 'There was an error!' });
             });
