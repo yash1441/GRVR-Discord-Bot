@@ -1,4 +1,4 @@
-const { StringSelectMenuBuilder, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextIntputStyle, bold } = require('discord.js');
+const { StringSelectMenuBuilder, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextInputStyle, bold } = require('discord.js');
 const logger = require("../logging/logger.js");
 
 module.exports = {
@@ -46,7 +46,7 @@ module.exports = {
                 .setCustomId('suggestion-modal-suggestion')
                 .setLabel('Suggestion')
                 .setPlaceholder('Explain your suggestion here in detail')
-                .setStyle(TextIntputStyle.Paragraph);
+                .setStyle(TextInputStyle.Paragraph);
 
             const modalRow = new ActionRowBuilder().addComponents(suggestion);
 
