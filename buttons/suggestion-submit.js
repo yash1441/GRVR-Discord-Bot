@@ -29,6 +29,7 @@ module.exports = {
         const message = await interaction.reply({
             content: `**Select Suggestion Category**`,
             components: [row],
+            ephemeral: true
         });
 
         const collectorFilter = i => {
@@ -38,6 +39,9 @@ module.exports = {
 
         message.awaitMessageComponent({ filter: collectorFilter, componentType: ComponentType.StringSelect, time: 15000 })
             .then(interaction => interaction.editReply(`You selected ${interaction.values.join(', ')}!`))
-            .catch(err => logger.debug('No interactions were collected.'));
+            .catch(err => {
+                console.log(err);
+                logger.debug('No interactions were collected.')
+            });
     },
 };
