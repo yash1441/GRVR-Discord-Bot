@@ -70,9 +70,9 @@ module.exports = {
             } else interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
         });
 
-        collector.on('end',(collected, reason)  => {
-            if (reason === 'time' && !collected) interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
-        });
+        // collector.on('end',(collected, reason)  => {
+        //     if (reason === 'time' && !collected) interaction.editReply({ content: 'Too slow, try again.', components: [], ephemeral: true });
+        // });
     },
 };
 
