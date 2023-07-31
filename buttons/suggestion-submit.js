@@ -34,14 +34,12 @@ module.exports = {
             ephemeral: true
         });
 
-        console.log(response);
-
         const collector = await response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 15_000 });
 
         collector.on('collect', async i => {
             data.category = i.values[0];
 
-            logger.debug('collected');
+            console.log(i);
 
             const modal = new ModalBuilder()
                 .setCustomId('suggestion-modal')
@@ -72,7 +70,7 @@ module.exports = {
         });
 
         // collector.on('end',(collected, reason)  => {
-        //     if (reason === 'time' && !collected) interaction.editReply({ content: 'Too slow, try again.', components: [], ephemeral: true });
+        //     if (reason === 'time' && !collected.size) interaction.editReply({ content: 'Too slow, try again.', components: [], ephemeral: true });
         // });
     },
 };
