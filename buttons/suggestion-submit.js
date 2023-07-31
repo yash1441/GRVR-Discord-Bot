@@ -26,7 +26,7 @@ module.exports = {
 
         const row = new ActionRowBuilder().addComponents(selectMenu);
 
-        const message = await interaction.editReply({
+        const message = await interaction.reply({
             content: `**Select Suggestion Category**`,
             components: [row],
         });
