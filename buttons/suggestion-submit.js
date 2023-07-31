@@ -70,8 +70,8 @@ module.exports = {
             } else interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
         });
 
-        collector.on('ignore', async i => {
-            logger.debug('ignore');
+        collector.on('end',(collected, reason)  => {
+            if (reason === 'time') logger.debug('time');
         });
     },
 };
