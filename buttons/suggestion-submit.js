@@ -87,12 +87,12 @@ function sendSuggestion(interaction, data) {
         .setThumbnail(user.displayAvatarURL())
         .setFooter({ text: user.id });
 
-    const approve = ButtonBuilder()
+    const approve = new ButtonBuilder()
         .setCustomId("suggestion-approve")
         .setLabel("Approve")
         .setStyle(ButtonStyle.Success);
 
-    const deny = ButtonBuilder()
+    const deny = new ButtonBuilder()
         .setCustomId("suggestion-deny")
         .setLabel("Deny")
         .setStyle(ButtonStyle.Danger);
