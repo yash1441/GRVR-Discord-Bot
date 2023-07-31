@@ -26,24 +26,17 @@ module.exports = {
 
         const row = new ActionRowBuilder().addComponents(selectMenu);
 
-        const message = await interaction.reply({
+        const response = await interaction.reply({
             content: `**Select Suggestion Category**`,
             components: [row],
             ephemeral: true
         });
 
-        const collectorFilter = i => {
-            i.deferUpdate();
-            return i.user.id === interaction.user.id;
-        };
+        const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 15_000 });
 
-        message.awaitMessageComponent({ filter: collectorFilter, componentType: ComponentType.StringSelect, time: 15000 })
-            .then(i => {
-                i.editReply({ content: `You selected ${i.values.join(', ')}!`, components:[] });
-            })
-            .catch(err => {
-                console.log(err);
-                logger.debug('No interactions were collected.')
-            });
+        collector.on('collect', async i => {
+            const selection = i.values[0];
+            await i.reply(`${i.user} has selected ${selection}!`);
+        });
     },
 };
