@@ -15,14 +15,23 @@ for (const file of commandFiles) {
 	const command = require(filePath);
 	commands.push(command.data.toJSON());
 }
-const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN);
 
-rest
-	.put(Routes.applicationCommands(process.env.BOT_ID), { body: commands })
-	.then((data) =>
-		console.log(`Successfully registered ${data.length} application commands.`)
-	)
-	.catch(console.error);
+const rest = new REST().setToken(process.env.BOT_TOKEN);
+
+(async () => {
+	try {
+		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+
+		const data = await rest.put(
+			Routes.applicationGuildCommands(clientId, guildId),
+			{ body: commands },
+		);
+
+		logger.log(`Successfully reloaded ${data.length} application (/) commands.`);
+	} catch (error) {
+		logger.error(error);
+	}
+})();
 
 /* 
 For updating commands
