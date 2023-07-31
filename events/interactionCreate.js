@@ -56,7 +56,7 @@ module.exports = {
             try {
                 await button.execute(interaction);
             } catch (error) {
-                logger.error(JSON.stringify(error));
+                console.log(error);
                 await interaction.reply({ content: 'There was an error while executing the button script !', ephemeral: true});
             }
         }
