@@ -36,11 +36,10 @@ module.exports = {
 
         const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 15_000 });
 
-        let selectMenuInteraction;
-
         collector.on('collect', async i => {
-            selectMenuInteraction = i;
             data.category = i.values[0];
+
+            logger.debug('collected');
 
             const modal = new ModalBuilder()
                 .setCustomId('suggestion-modal')
