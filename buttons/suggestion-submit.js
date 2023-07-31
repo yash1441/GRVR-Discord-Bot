@@ -69,6 +69,10 @@ module.exports = {
                 sendSuggestion(interaction, data);
             } else interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
         });
+
+        collector.on('ignore', async i => {
+            logger.debug('ignore');
+        });
     },
 };
 
