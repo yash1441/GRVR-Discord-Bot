@@ -1,4 +1,4 @@
-const { StringSelectMenuBuilder, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextInputStyle, bold, codeBlock } = require('discord.js');
+const { EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextInputStyle, bold, codeBlock } = require('discord.js');
 const logger = require("../logging/logger.js");
 
 module.exports = {
@@ -7,6 +7,7 @@ module.exports = {
     },
     async execute(interaction) {
         const data = {};
+        data.user = interaction.user;
         const selectMenu = new StringSelectMenuBuilder()
             .setCustomId('suggestion-category')
             .setPlaceholder('Suggestion Category')
@@ -57,16 +58,44 @@ module.exports = {
             await interaction.editReply({ content: `${i.user} has selected ${data.category}!`, components: [] });
 
             await i.showModal(modal);
+
+            const submitted = await interaction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => logger.error(error));
+
+            if (submitted) {
+                data.suggestion = submitted.fields.getTextInputValue('suggestion-modal-suggestion');
+
+                await submitted.reply({ content: codeBlock(data.suggestion), ephemeral: true });
+
+                sendSuggestion(interaction, data);
+            } else interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
         });
-
-        const submitted = await interaction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => logger.error(error));
-
-        if (submitted) {
-            data.suggestion = submitted.fields.getTextInputValue('suggestion-modal-suggestion');
-
-            await submitted.reply({ content: codeBlock(data.suggestion), ephemeral: true });
-        }
-
-        // Send to Thread
     },
 };
+
+function sendSuggestion(interaction, data) {
+    const user = data.user;
+    const category = data.category;
+    const suggestion = data.suggestion;
+
+    const embed = new EmbedBuilder()
+        .setTitle(category)
+        .setDescription(suggestion)
+        .setAuthor({ name: user.username })
+        .setThumbnail(user.displayAvatarURL())
+        .setFooter({ text: user.id });
+
+    const approve = ButtonBuilder()
+        .setCustomId("suggestion-approve")
+        .setLabel("Approve")
+        .setStyle(ButtonStyle.Success);
+
+    const deny = ButtonBuilder()
+        .setCustomId("suggestion-deny")
+        .setLabel("Deny")
+        .setStyle(ButtonStyle.Danger);
+
+    const row = new ActionRowBuilder().addComponents([approve, deny]);
+
+    const channel = interaction.client.channels.cache.get(process.env.ADMIN_SUGGESTIONS_CHANNEL);
+    channel.send({ embeds: [embed], components: [row] });
+}
