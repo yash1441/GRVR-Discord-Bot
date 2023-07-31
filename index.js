@@ -19,6 +19,8 @@ const {
     AttachmentBuilder,
 } = require("discord.js");
 const logger = require("./logging/logger.js");
+const fs = require("node:fs");
+const path = require("node:path");
 require("dotenv").config();
 
 const client = new Client({
