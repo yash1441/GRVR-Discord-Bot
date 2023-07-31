@@ -1,4 +1,4 @@
-const { EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextInputStyle, bold, codeBlock } = require('discord.js');
+const { EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextInputStyle, bold, codeBlock } = require('discord.js');
 const logger = require("../logging/logger.js");
 
 module.exports = {
