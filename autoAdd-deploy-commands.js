@@ -20,7 +20,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 
 (async () => {
 	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+		logger.log(`Started refreshing ${commands.length} application (/) commands.`);
 
 		const data = await rest.put(
 			Routes.applicationCommands(process.env.BOT_ID),
