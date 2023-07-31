@@ -38,8 +38,8 @@ module.exports = {
         };
 
         message.awaitMessageComponent({ filter: collectorFilter, componentType: ComponentType.StringSelect, time: 15000 })
-            .then(interaction => {
-                interaction.update({ content: `You selected ${interaction.values.join(', ')}!`, components:[] });
+            .then(i => {
+                i.update({ content: `You selected ${i.values.join(', ')}!`, components:[] });
             })
             .catch(err => {
                 console.log(err);
