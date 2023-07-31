@@ -88,7 +88,8 @@ function sendSuggestion(interaction, data) {
         .setDescription(suggestion)
         .setAuthor({ name: user.username })
         .setThumbnail(user.displayAvatarURL())
-        .setFooter({ text: user.id });
+        .setFooter({ text: user.id })
+        .setColor(process.env.THEME_COLOR);
 
     const approve = new ButtonBuilder()
         .setCustomId("suggestion-approve")
