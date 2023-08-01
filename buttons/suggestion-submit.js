@@ -2,6 +2,7 @@ const { EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, Actio
 const logger = require("../logging/logger.js");
 
 module.exports = {
+    cooldown: 75,
     data: {
         name: 'suggestion-submit'
     },
