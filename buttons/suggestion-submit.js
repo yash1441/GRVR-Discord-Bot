@@ -14,16 +14,16 @@ module.exports = {
             .setPlaceholder('Suggestion Category')
             .addOptions(
                 {
-                    label: '1',
-                    value: '1',
+                    label: 'Category 1',
+                    value: 'Category 1',
                 },
                 {
-                    label: '2',
-                    value: '2',
+                    label: 'Category 2',
+                    value: 'Category 2',
                 },
                 {
-                    label: '3',
-                    value: '3',
+                    label: 'Category 3',
+                    value: 'Category 3',
                 },
             );
 

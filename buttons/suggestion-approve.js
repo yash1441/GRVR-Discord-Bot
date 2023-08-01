@@ -1,6 +1,12 @@
 const { EmbedBuilder, userMention } = require('discord.js');
 const logger = require("../logging/logger.js");
 
+const TAGS = {
+    "Category 1": process.env.CATEGORY_1,
+    "Category 2": process.env.CATEGORY_2,
+    "Category 3": process.env.CATEGORY_3
+}
+
 module.exports = {
     data: {
         name: 'suggestion-approve'
@@ -34,7 +40,6 @@ function createForumPost(interaction, data) {
         .setTitle(data.username)
         .setDescription(data.suggestion)
         .setColor(process.env.THEME_COLOR)
-        .setFooter({ text: data.id })
-        .addFields({ name: 'Category', value: data.category });
-    channel.threads.create({ name: data.title, reason: 'Approved by ' + interaction.user.username, message: { embeds: [embed] }, appliedTags: [process.env.CATEGORY_1] });
+        .setFooter({ text: data.id });
+    channel.threads.create({ name: data.title, reason: 'Approved by ' + interaction.user.username, message: { embeds: [embed] }, appliedTags: [TAGS[data.category]] });
 }
