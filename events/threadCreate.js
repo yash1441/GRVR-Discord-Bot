@@ -38,6 +38,8 @@ module.exports = {
             }
         }
 
+        console.log(data.category);
+
 		const tenantToken = await feishu.authorize(
 			"cli_a3befa8417f9500d",
 			"II4y9Nn6d7C6RuZUxdOz2fxt4sSo6Rsu"
