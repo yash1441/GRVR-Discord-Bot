@@ -34,7 +34,8 @@ module.exports = {
 			tenantToken,
 			"NeVObULOOaraZasdu4Iccix8n5b",
 			"tbleOFyvlqnVOcOu",
-			data
+			data,
+            true
 		);
     }
 };
