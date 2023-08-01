@@ -15,11 +15,25 @@ module.exports = {
             }
         }
 
+        logger.debug('Message Reaction Add');
+
         if (user.id == process.env.BOT_ID) return;
+
+        console.log(user.id);
+
+        logger.debug(' - First Check Passed');
 
         if (reaction.emoji.name != '🔼' || reaction.emoji.name != '🔽') return;
 
-        //if (reaction.message.channelId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
+        console.log(reaction.emoji.name);
+
+        logger.debug(' - Second Check Passed');
+
+        if (reaction.message.channelId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
+
+        console.log(reaction.message.channelId);
+
+        logger.debug(' - Third Check Passed');
 
         const upCount = reaction.message.reactions.cache.get('🔼').count - 1;
         const downCount = reaction.message.reactions.cache.get('🔽').count - 1;
