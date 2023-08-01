@@ -19,9 +19,7 @@ module.exports = {
 
         if (reaction.emoji.name != '🔼' && reaction.emoji.name != '🔽') return;
 
-        logger.debug(' - Second Check Passed');
-
-        if (reaction.message.channelId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
+        if (reaction.message.channel.parentId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
 
         console.log(reaction.message.channelId);
 
