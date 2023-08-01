@@ -24,6 +24,24 @@ module.exports = {
         const upCount = reaction.message.reactions.cache.get('🔼').count - 1;
         const downCount = reaction.message.reactions.cache.get('🔽').count - 1;
 
+        const tenantToken = await feishu.authorize(
+            process.env.FEISHU_ID,
+            process.env.FEISHU_SECRET
+        );
+
+        const response = JSON.parse(
+            await feishu.getRecords(
+                tenantToken,
+                "NeVObULOOaraZasdu4Iccix8n5b",
+                "tbleOFyvlqnVOcOu",
+                `CurrentValue.[Suggestion] = "${reaction.message.embeds[0].description}"`
+            )
+        );
+
+        if (response.data == undefined || !response.data.total) {
+            return logger.warn('Could not add ' + reaction.emoji.name + ' to ' + reaction.message.id);
+        }
+
         const data = {
             fields: {
                 "🔼": upCount,
@@ -31,16 +49,12 @@ module.exports = {
             }
         }
 
-        const tenantToken = await feishu.authorize(
-			process.env.FEISHU_ID,
-			process.env.FEISHU_SECRET
-		);
-
-        await feishu.createRecord(
-			tenantToken,
-			"NeVObULOOaraZasdu4Iccix8n5b",
-			"tbleOFyvlqnVOcOu",
-			data
-		);
+        await feishu.updateRecord(
+            tenantToken,
+            "NeVObULOOaraZasdu4Iccix8n5b",
+            "tbleOFyvlqnVOcOu",
+            response.data.items[0].record_id,
+            data
+        );
     }
 };
