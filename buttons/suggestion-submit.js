@@ -1,4 +1,4 @@
-const { EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextInputStyle, bold, codeBlock } = require('discord.js');
+const { EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType, ModalBuilder, TextInputBuilder, TextInputStyle, bold, codeBlock, channelMention } = require('discord.js');
 const logger = require("../logging/logger.js");
 
 module.exports = {
@@ -45,35 +45,45 @@ module.exports = {
                 .setCustomId('suggestion-modal')
                 .setTitle(data.category)
 
+            const title = new TextInputBuilder()
+                .setCustomId('suggestion-modal-title')
+                .setLabel('Title')
+                .setPlaceholder('Give your suggestion a title')
+                .setStyle(TextInputStyle.Short);
+
             const suggestion = new TextInputBuilder()
                 .setCustomId('suggestion-modal-suggestion')
                 .setLabel('Suggestion')
                 .setPlaceholder('Explain your suggestion here in detail')
                 .setStyle(TextInputStyle.Paragraph);
 
-            const modalRow = new ActionRowBuilder().addComponents(suggestion);
+            const modalRow1 = new ActionRowBuilder().addComponents(title);
+            const modalRow2 = new ActionRowBuilder().addComponents(suggestion);
+            modal.addComponents(modalRow1, modalRow2);
 
-            modal.addComponents(modalRow);
             await interaction.editReply({ content: `${i.user} has selected ${data.category}!`, components: [] });
 
             await i.showModal(modal);
 
             const submitted = await interaction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => {
-                interaction.editReply({ content: 'Too slow, try again.', ephemeral: true });
+                interaction.editReply({ content: 'Too slow, try again.' });
                 return null;
             });
 
             if (submitted) {
+                data.title = submitted.fields.getTextInputValue('suggestion-modal-title');
                 data.suggestion = submitted.fields.getTextInputValue('suggestion-modal-suggestion');
 
-                await submitted.reply({ content: codeBlock(data.suggestion), ephemeral: true });
+                await submitted.reply({ content: bold(data.title) + '\n' + codeBlock(data.suggestion), ephemeral: true });
+
+                interaction.editReply({ content: 'The following suggestion has been submitted, please wait for an admin to approve/deny it. It should be visible in ' + channelMention(process.env.VOTE_SUGGESTIONS_CHANNEL) + ' shortly.'})
 
                 sendSuggestion(interaction, data);
             }
         });
 
-        collector.on('end',(collected, reason)  => {
-            if (reason === 'time' && !collected.size) interaction.editReply({ content: 'Too slow, try again.', components: [], ephemeral: true });
+        collector.on('end', (collected, reason) => {
+            if (reason === 'time' && !collected.size) interaction.editReply({ content: 'Too slow, try again.', components: [] });
         });
     },
 };
@@ -86,6 +96,7 @@ function sendSuggestion(interaction, data) {
     const embed = new EmbedBuilder()
         .setTitle(category)
         .setDescription(suggestion)
+        .addFields({ name: 'Category', value: category })
         .setAuthor({ name: user.username })
         .setThumbnail(user.displayAvatarURL())
         .setFooter({ text: user.id })
