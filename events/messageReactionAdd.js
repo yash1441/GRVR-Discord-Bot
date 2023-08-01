@@ -17,9 +17,7 @@ module.exports = {
 
         if (user.id == process.env.BOT_ID) return;
 
-        console.log(reaction.emoji.name);
-
-        if (reaction.emoji.name != '🔼' || reaction.emoji.name != '🔽') return;
+        if (reaction.emoji.name != '🔼' && reaction.emoji.name != '🔽') return;
 
         logger.debug(' - Second Check Passed');
 
