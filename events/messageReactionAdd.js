@@ -21,10 +21,6 @@ module.exports = {
 
         if (reaction.message.channel.parentId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
 
-        console.log(reaction.message.channelId);
-
-        logger.debug(' - Third Check Passed');
-
         const upCount = reaction.message.reactions.cache.get('🔼').count - 1;
         const downCount = reaction.message.reactions.cache.get('🔽').count - 1;
 

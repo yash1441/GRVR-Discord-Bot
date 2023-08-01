@@ -17,9 +17,9 @@ module.exports = {
 
         if (user.id == process.env.BOT_ID) return;
 
-        if (reaction.emoji.name != '🔼' || reaction.emoji.name != '🔽') return;
+        if (reaction.emoji.name != '🔼' && reaction.emoji.name != '🔽') return;
 
-        //if (reaction.message.channelId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
+        if (reaction.message.channel.parentId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
 
         const upCount = reaction.message.reactions.cache.get('🔼').count - 1;
         const downCount = reaction.message.reactions.cache.get('🔽').count - 1;
