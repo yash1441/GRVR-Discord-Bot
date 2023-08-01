@@ -23,7 +23,6 @@ module.exports = {
         const data = {
 			fields: {
 				"Suggestion": embed.description,
-				"Category": undefined,
 				"🔼": 0,
 				"🔽": 0,
                 "Discord ID": embed.footer.text,
@@ -31,18 +30,13 @@ module.exports = {
 			},
 		};
 
-        for (const category in TAGS) {
-            if (TAGS[category] == thread.appliedTags[0]) {
-                data.Category = category;
-                break;
-            }
-        }
+        data.category = Object.keys(TAGS).find(categoryName => TAGS[categoryName] === thread.appliedTags[0]);
 
-        console.log(data.category, thread.appliedTags[0], thread);
+        console.log(data.category);
 
 		const tenantToken = await feishu.authorize(
-			"cli_a3befa8417f9500d",
-			"II4y9Nn6d7C6RuZUxdOz2fxt4sSo6Rsu"
+			process.env.FEISHU_ID,
+			process.env.FEISHU_SECRET
 		);
 
         await feishu.createRecord(
