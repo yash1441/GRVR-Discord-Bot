@@ -19,7 +19,7 @@ module.exports = {
 
         if (reaction.emoji.name != '🔼' && reaction.emoji.name != '🔽') return;
 
-        if (reaction.message.channel.parentId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
+        if (reaction.message.channel.parentId != process.env.VOTE_SUGGESTIONS_CHANNEL || reaction.message.channelId === '1135942632573517824') return;
 
         const upCount = reaction.message.reactions.cache.get('🔼').count - 1;
         const downCount = reaction.message.reactions.cache.get('🔽').count - 1;
