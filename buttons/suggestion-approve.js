@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, userMention } = require('discord.js');
 const logger = require("../logging/logger.js");
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
 
         const newEmbed = EmbedBuilder.from(oldEmbed).setColor(process.env.GREEN_COLOR)
 
-        interaction.message.edit({ content: '✅ '+ interaction.user + ' ✅', embeds: [newEmbed], components: [] });
+        interaction.message.edit({ content: '✅ '+ userMention(interaction.user.id) + ' ✅', embeds: [newEmbed], components: [] });
 
         const data = {
             username: oldEmbed.author.name,
