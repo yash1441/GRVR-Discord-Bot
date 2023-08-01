@@ -12,7 +12,7 @@ module.exports = {
 
         const newEmbed = EmbedBuilder.from(oldEmbed).setColor(process.env.GREEN_COLOR)
 
-        interaction.message.edit({ embeds: [newEmbed], components: [] });
+        interaction.message.edit({ content: '✅ '+ userMention(interaction.user) + ' ✅', embeds: [newEmbed], components: [] });
 
         const data = {
             username: oldEmbed.author.name,
