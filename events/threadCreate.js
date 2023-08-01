@@ -11,7 +11,6 @@ module.exports = {
 
         logger.debug(thread.id);
         logger.debug(thread.name);
-        logger.debug(message.content);
-        logger.debug(thread.reason);
+        logger.debug(message.embeds[0]);
     }
 };
