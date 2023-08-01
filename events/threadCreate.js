@@ -9,8 +9,6 @@ module.exports = {
         const messages = await thread.messages.fetch();
         const message = messages.first()
 
-        logger.debug(thread.id);
-        logger.debug(thread.name);
-        logger.debug(message.embeds[0]);
+        console.log(thread);
     }
 };
