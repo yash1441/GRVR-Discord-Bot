@@ -8,5 +8,7 @@ module.exports = {
 
         const messages = await thread.messages.fetch();
         const message = messages.first()
+
+        await message.react('🔼').then(() => message.react('🔽'));
     }
 };
