@@ -30,7 +30,7 @@ module.exports = {
 			},
 		};
 
-        data.category = Object.keys(TAGS).find(categoryName => TAGS[categoryName] === thread.appliedTags[0]);
+        data.Category = Object.keys(TAGS).find(categoryName => TAGS[categoryName] === thread.appliedTags[0]);
 
         console.log(data.category);
 
