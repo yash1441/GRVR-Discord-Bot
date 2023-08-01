@@ -23,6 +23,7 @@ module.exports = {
         const data = {
             username: oldEmbed.author.name,
             id: oldEmbed.footer.text,
+            icon: oldEmbed.author.iconURL,
             title: oldEmbed.title,
             category: oldEmbed.fields[0].value,
             suggestion: oldEmbed.description
@@ -37,7 +38,7 @@ module.exports = {
 function createForumPost(interaction, data) {
     const channel = interaction.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
     const embed = new EmbedBuilder()
-        .setTitle(data.username)
+        .setAuthor({ name: data.username, iconURL: data.icon })
         .setDescription(data.suggestion)
         .setColor(process.env.THEME_COLOR)
         .setFooter({ text: data.id });
