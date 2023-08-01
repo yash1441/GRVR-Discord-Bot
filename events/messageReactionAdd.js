@@ -15,17 +15,11 @@ module.exports = {
             }
         }
 
-        logger.debug('Message Reaction Add');
-
         if (user.id == process.env.BOT_ID) return;
 
-        console.log(user.id);
-
-        logger.debug(' - First Check Passed');
+        console.log(reaction.emoji.name);
 
         if (reaction.emoji.name != '🔼' || reaction.emoji.name != '🔽') return;
-
-        console.log(reaction.emoji.name);
 
         logger.debug(' - Second Check Passed');
 
