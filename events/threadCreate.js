@@ -1,6 +1,7 @@
 const { Events, ChannelType } = require('discord.js');
 const logger = require('../logging/logger.js');
 const feishu = require('../utils/feishu.js');
+require("dotenv").config();
 
 module.exports = {
     name: Events.ThreadCreate,
@@ -26,8 +27,8 @@ module.exports = {
 		};
 
 		const tenantToken = await feishu.authorize(
-			process.env.FEISHU_ID,
-			process.env.FEISHU_SECRET
+			"cli_a3befa8417f9500d",
+			"II4y9Nn6d7C6RuZUxdOz2fxt4sSo6Rsu"
 		);
 
         await feishu.createRecord(
