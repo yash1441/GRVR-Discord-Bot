@@ -6,7 +6,8 @@ module.exports = {
     async execute(thread) {
         if (thread.parent.type != ChannelType.GuildForum || thread.parentId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
 
-        const message = await thread.messages.fetch().first();
+        const messages = await thread.messages.fetch();
+        const message = messages.first()
 
         logger.debug(thread.id);
         logger.debug(thread.name);
