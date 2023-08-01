@@ -1,7 +1,12 @@
 const { Events, ChannelType } = require('discord.js');
 const logger = require('../logging/logger.js');
 const feishu = require('../utils/feishu.js');
-require("dotenv").config();
+
+const TAGS = {
+    "Category 1": process.env.CATEGORY_1,
+    "Category 2": process.env.CATEGORY_2,
+    "Category 3": process.env.CATEGORY_3
+}
 
 module.exports = {
     name: Events.ThreadCreate,
@@ -18,13 +23,20 @@ module.exports = {
         const data = {
 			fields: {
 				"Suggestion": embed.description,
-				//"Category": threads,
+				"Category": undefined,
 				"🔼": 0,
 				"🔽": 0,
                 "Discord ID": embed.footer.text,
                 "Discord Name": embed.author.name,
 			},
 		};
+
+        for (const category in TAGS) {
+            if (TAGS[category] == thread.appliedTags[0]) {
+                data.Category = category;
+                break;
+            }
+        }
 
 		const tenantToken = await feishu.authorize(
 			"cli_a3befa8417f9500d",
@@ -35,8 +47,7 @@ module.exports = {
 			tenantToken,
 			"NeVObULOOaraZasdu4Iccix8n5b",
 			"tbleOFyvlqnVOcOu",
-			data,
-            true
+			data
 		);
     }
 };
