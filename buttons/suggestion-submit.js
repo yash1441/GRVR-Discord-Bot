@@ -65,7 +65,7 @@ module.exports = {
 
             await i.showModal(modal);
 
-            const submitted = await interaction.awaitModalSubmit({ time: 30_000, filter: i => i.user.id === interaction.user.id }).catch((error) => {
+            const submitted = await interaction.awaitModalSubmit({ time: 60_000, filter: i => i.user.id === interaction.user.id }).catch((error) => {
                 interaction.editReply({ content: 'Too slow, try again.' });
                 return null;
             });
