@@ -99,8 +99,7 @@ function sendSuggestion(interaction, data) {
         .setTitle(title)
         .setDescription(suggestion)
         .addFields({ name: 'Category', value: category })
-        .setAuthor({ name: user.username })
-        .setThumbnail(user.displayAvatarURL())
+        .setAuthor({ name: user.username, iconURL: user.displayAvatarURL() })
         .setFooter({ text: user.id })
         .setColor(process.env.THEME_COLOR);
 
