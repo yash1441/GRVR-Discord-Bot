@@ -38,7 +38,7 @@ module.exports = {
             }
         }
 
-        console.log(data.category);
+        console.log(data.category, thread.appliedTags[0], thread);
 
 		const tenantToken = await feishu.authorize(
 			"cli_a3befa8417f9500d",
