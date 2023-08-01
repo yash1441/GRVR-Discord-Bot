@@ -36,5 +36,5 @@ function createForumPost(interaction, data) {
         .setColor(process.env.THEME_COLOR)
         .setFooter({ text: data.id })
         .addFields({ name: 'Category', value: data.category });
-    channel.threads.create({ name: data.title, reason: 'Approved by ' + interaction.user.username, message: { embeds: [embed] }, appliedTags: [1], tags: [1] });
+    channel.threads.create({ name: data.title, reason: 'Approved by ' + interaction.user.username, message: { embeds: [embed] }, appliedTags: [process.env.CATEGORY_1] });
 }
