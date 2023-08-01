@@ -58,6 +58,7 @@ module.exports = {
             } catch (error) {
                 console.log(error);
                 if (interaction.replied) await interaction.followUp({ content: 'There was an error while executing the button script !', ephemeral: true});
+                else if (interaction.deferred) await interaction.editReply({ content: 'There was an error while executing the button script !', ephemeral: true});
                 else await interaction.reply({ content: 'There was an error while executing the button script !', ephemeral: true});
             }
         }
