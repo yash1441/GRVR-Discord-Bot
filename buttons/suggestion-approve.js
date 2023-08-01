@@ -30,5 +30,11 @@ module.exports = {
 
 function createForumPost(interaction, data) {
     const channel = interaction.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
-    channel.threads.create({ name: data.title, reason: data.id, message: { content: data.suggestion } });
+    const embed = new EmbedBuilder()
+        .setTitle(data.username)
+        .setDescription(data.suggestion)
+        .setColor(process.env.THEME_COLOR)
+        .setFooter({ text: data.id })
+        .addFields({ name: 'Category', value: data.category });
+    channel.threads.create({ name: data.title, reason: 'Approved by ' + interaction.user.username, message: { embeds: [embed] } });
 }
