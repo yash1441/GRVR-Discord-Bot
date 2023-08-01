@@ -90,11 +90,12 @@ module.exports = {
 
 function sendSuggestion(interaction, data) {
     const user = data.user;
+    const title = data.title;
     const category = data.category;
     const suggestion = data.suggestion;
 
     const embed = new EmbedBuilder()
-        .setTitle(category)
+        .setTitle(title)
         .setDescription(suggestion)
         .addFields({ name: 'Category', value: category })
         .setAuthor({ name: user.username })
