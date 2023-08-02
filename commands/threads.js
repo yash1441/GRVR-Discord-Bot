@@ -5,6 +5,12 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('threads')
         .setDescription('Get data from threads.')
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .addStringOption(option =>
+            option.setName('channel-id')
+                .setDescription('Enter the ID of channel')
+                .setRequired(true)
+        )
         .addStringOption(option =>
             option.setName('thread-id')
                 .setDescription('Enter the ID of thread')
@@ -12,7 +18,8 @@ module.exports = {
         ),
     async execute(interaction) {
         const threadId = interaction.options.getString('thread-id');
-        const channel = interaction.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
+        const channelId = interaction.options.getString('channel-id');
+        const channel = interaction.client.channels.cache.get(channelId);
         const thread = channel.threads.cache.find(x => x.id === threadId);
 
         console.log(thread);
