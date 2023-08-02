@@ -6,14 +6,13 @@ module.exports = {
         .setName('channels')
         .setDescription('Get data from channels.')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .addStringOption(option =>
-            option.setName('channel-id')
-                .setDescription('Enter the ID of channel')
+        .addChannelOption(option =>
+            option.setName('channel')
+                .setDescription('Select the channel')
                 .setRequired(true)
         ),
     async execute(interaction) {
-        const channelId = interaction.options.getString('channel-id');
-        const channel = interaction.channels.cache.get(channelId);
+        const channel = interaction.options.getChannel('channel');
 
         console.log(channel);
 
