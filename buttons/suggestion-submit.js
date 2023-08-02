@@ -10,7 +10,7 @@ module.exports = {
         const data = {};
         data.user = interaction.user;
 
-        const channel = client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
+        const channel = interaction.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
         const availableTags = channel.availableTags;
 
         const selectMenu = new StringSelectMenuBuilder()
