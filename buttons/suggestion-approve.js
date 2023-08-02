@@ -40,6 +40,8 @@ function createForumPost(interaction, data) {
             break;
         }
     }
+
+    console.log({availableTags, tagId});
     const embed = new EmbedBuilder()
         .setAuthor({ name: data.username, iconURL: data.icon })
         .setDescription(data.suggestion)
