@@ -30,7 +30,7 @@ module.exports = {
 			},
 		};
 
-        console.log(thread.availableTags);
+        console.log(thread);
 
         data.fields.Category = Object.keys(TAGS).find(categoryName => TAGS[categoryName] === thread.appliedTags[0]);
 
