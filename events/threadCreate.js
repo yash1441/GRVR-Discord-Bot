@@ -7,7 +7,7 @@ module.exports = {
     async execute(thread) {
         if (thread.parent.type != ChannelType.GuildForum || thread.parentId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
 
-        const channel = interaction.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
+        const channel = thread.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
         const availableTags = channel.availableTags;
 
         const messages = await thread.messages.fetch();
