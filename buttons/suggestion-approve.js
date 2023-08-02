@@ -1,12 +1,6 @@
 const { EmbedBuilder, userMention } = require('discord.js');
 const logger = require("../logging/logger.js");
 
-const TAGS = {
-    "Category 1": process.env.CATEGORY_1,
-    "Category 2": process.env.CATEGORY_2,
-    "Category 3": process.env.CATEGORY_3
-}
-
 module.exports = {
     data: {
         name: 'suggestion-approve'
@@ -37,10 +31,19 @@ module.exports = {
 
 function createForumPost(interaction, data) {
     const channel = interaction.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
+    const availableTags = channel.availableTags;
+    let tagId;
+
+    for (const tag of availableTags) {
+        if (tag.name == data.category) {
+            tagId = tag.id;
+            break;
+        }
+    }
     const embed = new EmbedBuilder()
         .setAuthor({ name: data.username, iconURL: data.icon })
         .setDescription(data.suggestion)
         .setColor(process.env.THEME_COLOR)
         .setFooter({ text: data.id });
-    channel.threads.create({ name: data.title, reason: 'Approved by ' + interaction.user.username, message: { embeds: [embed] }, appliedTags: [TAGS[data.category]] });
+    channel.threads.create({ name: data.title, reason: 'Approved by ' + interaction.user.username, message: { embeds: [embed] }, appliedTags: [tagId] });
 }

@@ -9,23 +9,20 @@ module.exports = {
     async execute(interaction) {
         const data = {};
         data.user = interaction.user;
+
+        const channel = client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
+        const availableTags = channel.availableTags;
+
         const selectMenu = new StringSelectMenuBuilder()
             .setCustomId('suggestion-category')
-            .setPlaceholder('Suggestion Category')
-            .addOptions(
-                {
-                    label: 'Category 1',
-                    value: 'Category 1',
-                },
-                {
-                    label: 'Category 2',
-                    value: 'Category 2',
-                },
-                {
-                    label: 'Category 3',
-                    value: 'Category 3',
-                },
-            );
+            .setPlaceholder('Suggestion Category');
+
+        for (const tag of availableTags) {
+            selectMenu.addOptions({
+                label: tag.name,
+                value: tag.name
+            });
+        }
 
         const row = new ActionRowBuilder().addComponents(selectMenu);
 
