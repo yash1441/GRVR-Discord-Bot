@@ -5,14 +5,18 @@ const feishu = require('../utils/feishu.js');
 module.exports = {
     name: Events.ThreadCreate,
     async execute(thread) {
-        let votesChannel;
+        let votesChannel, bitableBase, bitableTable;
 
         switch (thread.guildId) {
             case process.env.GRVR_ID:
                 votesChannel = process.env.GRVR_VOTE;
+                bitableBase = process.env.GRVR_BASE;
+                bitableTable = process.env.GRVR_TABLE;
                 break;
             case process.env.LIGHT_ID:
                 votesChannel = process.env.LIGHT_VOTE;
+                bitableBase = process.env.LIGHT_BASE;
+                bitableTable = process.env.LIGHT_TABLE;
                 break;
         }
 
@@ -55,8 +59,8 @@ module.exports = {
 
         await feishu.createRecord(
             tenantToken,
-            "NeVObULOOaraZasdu4Iccix8n5b",
-            "tbleOFyvlqnVOcOu",
+            bitableBase,
+            bitableTable,
             data
         );
     }

@@ -19,14 +19,18 @@ module.exports = {
 
         if (reaction.emoji.name != '🔼' && reaction.emoji.name != '🔽') return;
 
-        let votesChannel, adminsChannel;
+        let votesChannel, bitableBase, bitableTable;
 
         switch (reaction.message.guildId) {
             case process.env.GRVR_ID:
                 votesChannel = process.env.GRVR_VOTE;
+                bitableBase = process.env.GRVR_BASE;
+                bitableTable = process.env.GRVR_TABLE;
                 break;
             case process.env.LIGHT_ID:
                 votesChannel = process.env.LIGHT_VOTE;
+                bitableBase = process.env.LIGHT_BASE;
+                bitableTable = process.env.LIGHT_TABLE;
                 break;
         }
 
@@ -43,8 +47,8 @@ module.exports = {
         const response = JSON.parse(
             await feishu.getRecords(
                 tenantToken,
-                "NeVObULOOaraZasdu4Iccix8n5b",
-                "tbleOFyvlqnVOcOu",
+                bitableBase,
+                bitableTable,
                 `CurrentValue.[Suggestion] = "${reaction.message.embeds[0].description}"`
             )
         );
@@ -62,8 +66,8 @@ module.exports = {
 
         await feishu.updateRecord(
             tenantToken,
-            "NeVObULOOaraZasdu4Iccix8n5b",
-            "tbleOFyvlqnVOcOu",
+            bitableBase,
+            bitableTable,
             response.data.items[0].record_id,
             data
         );
