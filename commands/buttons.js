@@ -22,14 +22,14 @@ module.exports = {
         const subCommand = interaction.options.getSubcommand();
 
         if (subCommand === "suggestions") {
-            let suggestionsChannel;
+            let votesChannel;
 
             switch (interaction.guildId) {
                 case process.env.GRVR_ID:
-                    suggestionsChannel = process.env.GRVR_VOTE;
+                    votesChannel = process.env.GRVR_VOTE;
                     break;
                 case process.env.LIGHT_ID:
-                    suggestionsChannel = process.env.LIGHT_VOTE;
+                    votesChannel = process.env.LIGHT_VOTE;
                     break;
             }
 
@@ -42,7 +42,7 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setTitle(`FEEDBACK HELP US IMPROVE THE GAME!`)
                 .setDescription(
-                    `This is the channel where you submit the suggestions!\nOnce approved, suggestions will be shared in <#${suggestionsChannel}> for public voting!`
+                    `This is the channel where you submit the suggestions!\nOnce approved, suggestions will be shared in <#${votesChannel}> for public voting!`
                 )
                 .setColor(process.env.THEME_COLOR);
 

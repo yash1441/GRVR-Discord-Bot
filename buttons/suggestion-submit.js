@@ -10,7 +10,18 @@ module.exports = {
         const data = {};
         data.user = interaction.user;
 
-        const channel = interaction.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
+        let votesChannel, adminsChannel;
+
+        switch (interaction.guildId) {
+            case process.env.GRVR_ID:
+                votesChannel = process.env.GRVR_VOTE;
+                break;
+            case process.env.LIGHT_ID:
+                votesChannel = process.env.LIGHT_VOTE;
+                break;
+        }
+
+        const channel = interaction.client.channels.cache.get(votesChannel);
         const availableTags = channel.availableTags;
 
         const selectMenu = new StringSelectMenuBuilder()
@@ -74,7 +85,7 @@ module.exports = {
 
                 await submitted.reply({ content: bold(data.title) + '\n' + codeBlock(data.suggestion), ephemeral: true });
 
-                interaction.editReply({ content: 'The following suggestion has been submitted, please wait for an admin to approve/deny it. It should be visible in ' + channelMention(process.env.VOTE_SUGGESTIONS_CHANNEL) + ' shortly.'})
+                interaction.editReply({ content: 'The following suggestion has been submitted, please wait for an admin to approve/deny it. It should be visible in ' + channelMention(votesChannel) + ' shortly.' })
 
                 sendSuggestion(interaction, data);
             }
@@ -91,6 +102,17 @@ function sendSuggestion(interaction, data) {
     const title = data.title;
     const category = data.category;
     const suggestion = data.suggestion;
+
+    let adminsChannel;
+
+    switch (interaction.guildId) {
+        case process.env.GRVR_ID:
+            adminsChannel = process.env.GRVR_ADMIN;
+            break;
+        case process.env.LIGHT_ID:
+            adminsChannel = process.env.LIGHT_ADMIN;
+            break;
+    }
 
     const embed = new EmbedBuilder()
         .setTitle(title)
@@ -112,6 +134,6 @@ function sendSuggestion(interaction, data) {
 
     const row = new ActionRowBuilder().addComponents([approve, deny]);
 
-    const channel = interaction.client.channels.cache.get(process.env.ADMIN_SUGGESTIONS_CHANNEL);
+    const channel = interaction.client.channels.cache.get(adminsChannel);
     channel.send({ embeds: [embed], components: [row] });
 }

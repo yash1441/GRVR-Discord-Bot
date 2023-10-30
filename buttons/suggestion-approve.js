@@ -12,7 +12,7 @@ module.exports = {
 
         const newEmbed = EmbedBuilder.from(oldEmbed).setColor(process.env.GREEN_COLOR)
 
-        interaction.message.edit({ content: '✅ '+ userMention(interaction.user.id) + ' ✅', embeds: [newEmbed], components: [] });
+        interaction.message.edit({ content: '✅ ' + userMention(interaction.user.id) + ' ✅', embeds: [newEmbed], components: [] });
 
         const data = {
             username: oldEmbed.author.name,
@@ -30,7 +30,18 @@ module.exports = {
 };
 
 function createForumPost(interaction, data) {
-    const channel = interaction.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
+    let votesChannel;
+
+    switch (interaction.guildId) {
+        case process.env.GRVR_ID:
+            votesChannel = process.env.GRVR_VOTE;
+            break;
+        case process.env.LIGHT_ID:
+            votesChannel = process.env.LIGHT_VOTE;
+            break;
+    }
+
+    const channel = interaction.client.channels.cache.get(votesChannel);
     const availableTags = channel.availableTags;
     let tagId;
 

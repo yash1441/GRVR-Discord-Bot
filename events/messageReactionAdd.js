@@ -19,7 +19,18 @@ module.exports = {
 
         if (reaction.emoji.name != '🔼' && reaction.emoji.name != '🔽') return;
 
-        if (reaction.message.channel.parentId != process.env.VOTE_SUGGESTIONS_CHANNEL || reaction.message.channelId === '1135942632573517824') return;
+        let votesChannel, adminsChannel;
+
+        switch (reaction.message.guildId) {
+            case process.env.GRVR_ID:
+                votesChannel = process.env.GRVR_VOTE;
+                break;
+            case process.env.LIGHT_ID:
+                votesChannel = process.env.LIGHT_VOTE;
+                break;
+        }
+
+        if (reaction.message.channel.parentId != votesChannel || reaction.message.channelId === '1135942632573517824') return;
 
         const upCount = reaction.message.reactions.cache.get('🔼').count - 1;
         const downCount = reaction.message.reactions.cache.get('🔽').count - 1;

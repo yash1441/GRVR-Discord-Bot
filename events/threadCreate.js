@@ -5,9 +5,20 @@ const feishu = require('../utils/feishu.js');
 module.exports = {
     name: Events.ThreadCreate,
     async execute(thread) {
-        if (thread.parent.type != ChannelType.GuildForum || thread.parentId != process.env.VOTE_SUGGESTIONS_CHANNEL) return;
+        let votesChannel;
 
-        const channel = thread.client.channels.cache.get(process.env.VOTE_SUGGESTIONS_CHANNEL);
+        switch (thread.guildId) {
+            case process.env.GRVR_ID:
+                votesChannel = process.env.GRVR_VOTE;
+                break;
+            case process.env.LIGHT_ID:
+                votesChannel = process.env.LIGHT_VOTE;
+                break;
+        }
+
+        if (thread.parent.type != ChannelType.GuildForum || thread.parentId != votesChannel) return;
+
+        const channel = thread.client.channels.cache.get(votesChannel);
         const availableTags = channel.availableTags;
 
         const messages = await thread.messages.fetch();
@@ -27,26 +38,26 @@ module.exports = {
         }
 
         const data = {
-			fields: {
-				"Suggestion": embed.description,
+            fields: {
+                "Suggestion": embed.description,
                 "Category": category,
-				"🔼": 0,
-				"🔽": 0,
+                "🔼": 0,
+                "🔽": 0,
                 "Discord ID": embed.footer.text,
                 "Discord Name": embed.author.name,
-			},
-		};
+            },
+        };
 
-		const tenantToken = await feishu.authorize(
-			process.env.FEISHU_ID,
-			process.env.FEISHU_SECRET
-		);
+        const tenantToken = await feishu.authorize(
+            process.env.FEISHU_ID,
+            process.env.FEISHU_SECRET
+        );
 
         await feishu.createRecord(
-			tenantToken,
-			"NeVObULOOaraZasdu4Iccix8n5b",
-			"tbleOFyvlqnVOcOu",
-			data
-		);
+            tenantToken,
+            "NeVObULOOaraZasdu4Iccix8n5b",
+            "tbleOFyvlqnVOcOu",
+            data
+        );
     }
 };
