@@ -32,6 +32,8 @@ module.exports = {
 
         await message.react('🔼').then(() => message.react('🔽'));
 
+        logger.info('Reacted 🔼 & 🔽 to suggestion thread ' + thread.id);
+
         let category;
 
         for (const tag of availableTags) {
@@ -63,5 +65,7 @@ module.exports = {
             bitableTable,
             data
         );
+
+        logger.info('Sent thread data to Feishu Bitable ' + bitableBase);
     }
 };
