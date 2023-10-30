@@ -22,6 +22,17 @@ module.exports = {
         const subCommand = interaction.options.getSubcommand();
 
         if (subCommand === "suggestions") {
+            let suggestionsChannel;
+
+            switch (interaction.guildId) {
+                case process.env.GRVR_ID:
+                    suggestionsChannel = process.env.GRVR_VOTE;
+                    break;
+                case process.env.LIGHT_ID:
+                    suggestionsChannel = process.env.LIGHT_VOTE;
+                    break;
+            }
+
             const button = new ButtonBuilder()
                 .setCustomId("suggestion-submit")
                 .setLabel("Submit Suggestion")
@@ -31,13 +42,16 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setTitle(`FEEDBACK HELP US IMPROVE THE GAME!`)
                 .setDescription(
-                    `This is the channel where you submit the suggestions!\nOnce approved, suggestions will be shared in <#${process.env.VOTE_SUGGESTIONS_CHANNEL}> for public voting!`
+                    `This is the channel where you submit the suggestions!\nOnce approved, suggestions will be shared in <#${suggestionsChannel}> for public voting!`
                 )
                 .setColor(process.env.THEME_COLOR);
 
             const row = new ActionRowBuilder().addComponents([button]);
 
-            interaction.channel.send({ embeds: [embed], components: [row] }).then(() => interaction.deleteReply()).catch((error) => {
+            interaction.channel.send({ embeds: [embed], components: [row] }).then(() => {
+                interaction.deleteReply();
+                logger.info('Created suggestion-submit button in ' + interaction.guild.name + ' (' + interaction.guildId + ')');
+            }).catch((error) => {
                 logger.error(error);
                 interaction.reply({ content: 'There was an error!' });
             });
