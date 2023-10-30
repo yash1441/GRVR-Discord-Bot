@@ -1,2 +1,2 @@
-# GRVR-Discord-Bot
-A discord bot for the Gravity Royale VR server.
+# Suggestions-Discord-Bot
+A discord bot for the Suggestions management purposes.
