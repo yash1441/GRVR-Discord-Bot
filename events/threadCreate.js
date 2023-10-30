@@ -26,9 +26,9 @@ module.exports = {
         const availableTags = channel.availableTags;
 
         const messages = await thread.messages.fetch();
-        const message = messages.first()
+        const message = await messages.first()
 
-        const embed = message.embeds[0];
+        const embed = await message.embeds[0];
 
         await message.react('🔼').then(() => message.react('🔽'));
 
