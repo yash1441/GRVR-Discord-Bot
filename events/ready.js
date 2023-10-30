@@ -9,8 +9,8 @@ module.exports = {
         client.user.setPresence({
             activities: [
                 {
-                    name: `Gravity Royale VR`,
-                    type: ActivityType.Playing,
+                    name: `your suggestions.`,
+                    type: ActivityType.Listening,
                 },
             ],
             status: `dnd`,
