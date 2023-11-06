@@ -140,17 +140,14 @@ module.exports = {
                 const channel = await interaction.client.channels.cache.get(serverData[interaction.guildId].rewardChannel);
                 const user = await interaction.client.users.cache.get(discordId);
 
-                logger.debug(`Got channel and name`);
-
                 const thread = await channel.threads.create({
                     name: "Reward - " + member.user.username,
                     reason: `${user.username} has private DMs`,
                     type: ChannelType.PrivateThread,
                 });
 
-                logger.debug(`Created thread: ${thread.name}`);
-
-                await thread.members.add(user.id);
+                await thread.members.add(discordId);
+                await thread.setLocked(true);
 
                 let finalMessage = {};
 
