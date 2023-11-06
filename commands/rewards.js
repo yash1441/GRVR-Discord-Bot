@@ -40,10 +40,6 @@ module.exports = {
             process.env.FEISHU_SECRET
         );
 
-        logger.debug('Reward Base: ' + serverData[interaction.guildId].rewardBase);
-        logger.debug('Reward Table: ' + serverData[interaction.guildId].rewardTable);
-        logger.debug('Reward Channel: ' + serverData[interaction.guildId].rewardChannel);
-
         const rewardData = JSON.parse(
             await feishu.getRecords(
                 tenantToken,
@@ -109,7 +105,7 @@ module.exports = {
                 continue;
             }
 
-            message = `Congrats! You have been rewarded a ${rewardType} worth ${rewardValue} ${rewardCurrency}.\n\n${rewardCode}\n\nPlease tap **Claim** below to confirm.`;
+            message = `Congrats! You have been rewarded a ${rewardType} worth ${rewardCurrency} ${rewardValue}.\n\n${rewardCode}\n\nPlease tap **Claim** below to confirm.`;
 
             const claimButton = new ButtonBuilder()
                 .setCustomId("claim" + recordId)
@@ -174,8 +170,6 @@ module.exports = {
         }
 
         await interaction.editReply({ content: "Done!", components: [] });
-        logger.info(
-            `Reward sending finished. ${rewardData.data.total} rewards sent. ${failed.length} failed.`
-        );
+        logger.info(`Reward sending finished.\nSent: ${rewardData.data.total}\nPassed: ${rewardData.data.total - failed.length}\nFailed: ${failed.length}\n\nBase: ${serverData[interaction.guildId].rewardBase}\nTable: ${serverData[interaction.guildId].rewardTable}\nChannel: ${serverData[interaction.guildId].rewardChannel}`);
     },
 };
