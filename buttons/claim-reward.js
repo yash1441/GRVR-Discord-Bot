@@ -61,6 +61,10 @@ module.exports = {
         if (interaction.channel.type != ChannelType.DM) {
             const thread = interaction.channel;
             await thread.members.remove(interaction.user.id);
+            await interaction.message.edit({
+                content: interaction.message.content,
+                components: [],
+            });
             await thread.setArchived(true);
             await interaction.client.channels
                 .fetch(serverData[serverId].rewardChannel)
@@ -70,15 +74,15 @@ module.exports = {
                         "Claimed Reward"
                     );
                 });
+        } else {
+            await interaction.message.edit({
+                content: interaction.message.content,
+                components: [],
+            });
         }
 
         await interaction.editReply({
             content: "Your reward has been marked as **Claimed**.",
-        });
-
-        await interaction.message.edit({
-            content: interaction.message.content,
-            components: [],
         });
     },
 };
