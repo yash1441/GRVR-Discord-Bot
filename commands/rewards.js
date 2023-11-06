@@ -144,16 +144,10 @@ module.exports = {
                     name: "Reward - " + member.user.username,
                     reason: `${user.username} has private DMs`,
                     type: ChannelType.PrivateThread,
+                    invitable: false,
                 });
 
                 await thread.members.add(discordId);
-                await thread.setLocked(true);
-
-                let finalMessage = {};
-
-                if (message) finalMessage.content = message;
-                if (embeds) finalMessage.embeds = embeds;
-                if (components) finalMessage.components = components;
 
                 await thread.send({
                     content: `${member.user}\n` + message,
