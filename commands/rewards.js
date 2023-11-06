@@ -124,7 +124,7 @@ module.exports = {
                 })
                 .catch((error) => {
                     logger.error(`Failed to send message to ${discordId} for record ${recordId}. Trying to create private channel.`);
-                    console.log(error);
+                    console.log(error.rawError.message);
                     success = false;
                 });
 
@@ -139,6 +139,7 @@ module.exports = {
                 );
             } else {
                 const channel = await interaction.client.channels.cache.get(serverData[interaction.guildId].rewardChannel);
+                console.log(channel);
                 await privateChannel(
                     interaction,
                     channel,
