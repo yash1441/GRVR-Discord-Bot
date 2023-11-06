@@ -123,9 +123,8 @@ module.exports = {
                     components: [claimRow],
                 })
                 .catch((error) => {
-                    logger.error(
-                        `Failed to send message to ${discordId} for record ${recordId}. Trying to create private channel.`
-                    );
+                    logger.error(`Failed to send message to ${discordId} for record ${recordId}. Trying to create private channel.`);
+                    console.log(error);
                     success = false;
                 });
 
@@ -148,7 +147,7 @@ module.exports = {
                     `${member.user}\n` + message,
                     false,
                     [claimRow],
-                    "**Once you click CLAIM, this thread would be DELETED.**\nPlease copy the reward/code somewhere and only then press the button."
+                    "# Once you click CLAIM, this thread would be DELETED.\nPlease copy the reward/code somewhere and only then press the button."
                 );
             }
         }
@@ -169,3 +168,40 @@ module.exports = {
         logger.info(`Reward sending finished.\nSent: ${rewardData.data.total}\nPassed: ${rewardData.data.total - failed.length}\nFailed: ${failed.length}\n\nBase: ${serverData[interaction.guildId].rewardBase}\nTable: ${serverData[interaction.guildId].rewardTable}\nChannel: ${serverData[interaction.guildId].rewardChannel}`);
     },
 };
+
+async function privateChannel(
+    interaction,
+    channel,
+    channelName,
+    discordId,
+    message,
+    embeds,
+    components,
+    closer
+) {
+    const user = await interaction.client.users.cache.get(discordId);
+
+    await channel.permissionOverwrites.create(user, {
+        ViewChannel: true,
+    });
+
+    const thread = await channel.threads.create({
+        name: channelName,
+        reason: `${user.username} has private DMs`,
+        type: ChannelType.PrivateThread,
+    });
+
+    await thread.members.add(user.id);
+
+    let finalMessage = {};
+
+    if (message) finalMessage.content = message;
+    if (embeds) finalMessage.embeds = embeds;
+    if (components) finalMessage.components = components;
+
+    await thread.send(finalMessage);
+
+    await thread.send({
+        content: closer,
+    });
+}
