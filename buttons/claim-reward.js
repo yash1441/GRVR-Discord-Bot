@@ -1,4 +1,4 @@
-const { EmbedBuilder, userMention } = require('discord.js');
+const { ChannelType } = require('discord.js');
 const logger = require("../logging/logger.js");
 
 const serverData = {
