@@ -20,6 +20,7 @@ module.exports = {
         .setName("rewards")
         .setDescription("Reward delivery system")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDMPermission(false)
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("send")
@@ -157,6 +158,14 @@ module.exports = {
                 await thread.send({
                     content: "# Once you click CLAIM, this thread would be DELETED.\nPlease copy the reward/code somewhere and only then press the button.",
                 });
+
+                await feishu.updateRecord(
+                    tenantToken,
+                    serverData[interaction.guildId].rewardBase,
+                    serverData[interaction.guildId].rewardTable,
+                    recordId,
+                    { fields: { Status: "Sent" } }
+                );
             }
         }
 
@@ -164,8 +173,8 @@ module.exports = {
             for (const record of failed) {
                 await feishu.updateRecord(
                     tenantToken,
-                    process.env.REWARD_BASE,
-                    process.env.DELIVERY,
+                    serverData[interaction.guildId].rewardBase,
+                    serverData[interaction.guildId].rewardTable,
                     record.record_id,
                     { fields: { Status: "Failed", Reason: record.reason } }
                 );
