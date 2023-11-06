@@ -135,7 +135,7 @@ module.exports = {
                     serverData[interaction.guildId].rewardBase,
                     serverData[interaction.guildId].rewardTable,
                     recordId,
-                    { fields: { Status: "Sent" } }
+                    { fields: { Status: "Sent", Method: "DM" } }
                 );
             } else {
                 const channel = await interaction.client.channels.cache.get(serverData[interaction.guildId].rewardChannel);
@@ -164,7 +164,7 @@ module.exports = {
                     serverData[interaction.guildId].rewardBase,
                     serverData[interaction.guildId].rewardTable,
                     recordId,
-                    { fields: { Status: "Sent" } }
+                    { fields: { Status: "Sent", Method: "Thread" } }
                 );
             }
         }
