@@ -141,6 +141,10 @@ module.exports = {
                 const channel = await interaction.client.channels.cache.get(serverData[interaction.guildId].rewardChannel);
                 const user = await interaction.client.users.cache.get(discordId);
 
+                await channel.permissionOverwrites.create(user, {
+                    ViewChannel: true,
+                });
+
                 const thread = await channel.threads.create({
                     name: "Reward - " + member.user.username,
                     reason: `${user.username} has private DMs`,
