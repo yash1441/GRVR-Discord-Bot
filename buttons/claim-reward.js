@@ -6,7 +6,22 @@ module.exports = {
         name: 'claim-reward'
     },
     async execute(interaction) {
-        await interaction.reply(interaction.message.content);
+        await interaction.deferReply();
+
+        const regex = /\*Reference ID: (.*?)\*/;
+        const match = interaction.message.content.match(regex);
+
+        if (match && match[1]) {
+            const recordId = match[1];
+            return interaction.editReply({
+                content: "Record ID: " + recordId,
+            });
+        } else {
+            logger.error("Record ID not found.");
+            return interaction.editReply({
+                content: "Record ID: NULL",
+            });
+        }
 
         /*const recordId = interaction.customId.substring(5);
 
