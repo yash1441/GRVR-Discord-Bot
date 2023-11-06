@@ -62,7 +62,7 @@ module.exports = {
             const thread = interaction.channel;
             await thread.members.remove(interaction.user.id);
             await thread.setArchived(true);
-            await client.channels
+            await interaction.client.channels
                 .fetch(serverData[serverId].rewardChannel)
                 .then((channel) => {
                     channel.permissionOverwrites.delete(
