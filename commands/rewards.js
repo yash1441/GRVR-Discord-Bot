@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, PermissionFlagsBits, ChannelType } = require("discord.js");
 const feishu = require('../utils/feishu.js');
 const logger = require("../logging/logger.js");
 
@@ -139,6 +139,8 @@ module.exports = {
             } else {
                 const channel = await interaction.client.channels.cache.get(serverData[interaction.guildId].rewardChannel);
                 const user = await interaction.client.users.cache.get(discordId);
+
+                logger.debug(`Got channel and name`);
 
                 const thread = await channel.threads.create({
                     name: "Reward - " + member.user.username,
