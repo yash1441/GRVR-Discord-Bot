@@ -124,13 +124,13 @@ module.exports = {
                 })
                 .catch((error) => {
                     logger.error(
-                        `Failed to send message to ${discordId} for record ${recordId}.`
+                        `Failed to send message to ${discordId} for record ${recordId}. Trying to create private channel.`
                     );
                     success = false;
                 });
 
             if (success) {
-                logger.info(`Sent message to ${discordId} for record ${recordId}.`);
+                logger.info(`Successfully sent message to ${discordId} for record ${recordId}.`);
                 await feishu.updateRecord(
                     tenantToken,
                     serverData[interaction.guildId].rewardBase,
@@ -139,10 +139,6 @@ module.exports = {
                     { fields: { Status: "Sent" } }
                 );
             } else {
-                logger.info(
-                    `Sending message to ${discordId} failed. Creating private channel.`
-                );
-
                 const channel = await interaction.client.channels.cache.get(serverData[interaction.guildId].rewardChannel);
                 await privateChannel(
                     interaction,
