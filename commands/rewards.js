@@ -159,6 +159,8 @@ module.exports = {
                     content: "# Once you click CLAIM, this thread would be DELETED.\nPlease copy the reward/code somewhere and only then press the button.",
                 });
 
+                logger.info(`Successfully created thread ${thread.id} for ${discordId} for record ${recordId}.`);
+
                 await feishu.updateRecord(
                     tenantToken,
                     serverData[interaction.guildId].rewardBase,
