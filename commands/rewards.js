@@ -106,7 +106,7 @@ module.exports = {
                 continue;
             }
 
-            message = `Congrats! You have been rewarded a ${rewardType} worth ${rewardCurrency} ${rewardValue}.\n\n## ${rewardCode}\n\nPlease tap **Claim** below to confirm.\n\n*Reference ID: ${recordId}*`;
+            message = `Congrats! You have been rewarded a ${rewardType} worth ${rewardCurrency} ${rewardValue}.\n\n## ${rewardCode}\n\nPlease tap **Claim** below to confirm.\n\n*Reference ID: ${recordId}*\n*Server ID: ${interaction.guildId}*`;
 
             const claimButton = new ButtonBuilder()
                 .setCustomId("claim-reward")

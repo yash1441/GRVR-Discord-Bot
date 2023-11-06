@@ -1,6 +1,19 @@
 const { EmbedBuilder, userMention } = require('discord.js');
 const logger = require("../logging/logger.js");
 
+const serverData = {
+    "1128162209764216934": {
+        rewardBase: process.env.GRVR_REWARD_BASE,
+        rewardTable: process.env.GRVR_REWARD_TABLE,
+        rewardChannel: process.env.GRVR_REWARD_CHANNEL,
+    },
+    "1166259931335360542": {
+        rewardBase: process.env.LIGHT_REWARD_BASE,
+        rewardTable: process.env.LIGHT_REWARD_TABLE,
+        rewardChannel: process.env.LIGHT_REWARD_CHANNEL,
+    }
+}
+
 module.exports = {
     data: {
         name: 'claim-reward'
@@ -8,14 +21,13 @@ module.exports = {
     async execute(interaction) {
         await interaction.deferReply();
 
-        const regex = /\*Reference ID: (.*?)\*/;
-        const match = interaction.message.content.match(regex);
+        const match1 = interaction.message.content.match(/\*Reference ID: (.*?)\*/);
+        const match2 = interaction.message.content.match(/\*Server ID: (.*?)\*/);
 
-        if (match && match[1]) {
-            const recordId = match[1];
-            return interaction.editReply({
-                content: "Record ID: " + recordId,
-            });
+        let recordId, serverId;
+
+        if (match1 && match1[1]) {
+            recordId = match1[1];
         } else {
             logger.error("Record ID not found.");
             return interaction.editReply({
@@ -23,7 +35,14 @@ module.exports = {
             });
         }
 
-        /*const recordId = interaction.customId.substring(5);
+        if (match2 && match2[1]) {
+            serverId = match2[1];
+        } else {
+            logger.error("Server ID not found.");
+            return interaction.editReply({
+                content: "Server ID: NULL",
+            });
+        }
 
         const tenantToken = await feishu.authorize(
             process.env.FEISHU_ID,
@@ -32,8 +51,8 @@ module.exports = {
 
         await feishu.updateRecord(
             tenantToken,
-            process.env.REWARD_BASE,
-            process.env.DELIVERY,
+            serverData[serverId].rewardBase,
+            serverData[serverId].rewardTable,
             recordId,
             { fields: { Status: "Claimed" } }
         );
@@ -43,7 +62,7 @@ module.exports = {
             await thread.members.remove(interaction.user.id);
             await thread.setArchived(true);
             await client.channels
-                .fetch(process.env.COLLECT_REWARDS_CHANNEL)
+                .fetch(serverData[serverId].rewardChannel)
                 .then((channel) => {
                     channel.permissionOverwrites.delete(
                         interaction.user,
@@ -59,6 +78,6 @@ module.exports = {
         await interaction.message.edit({
             content: interaction.message.content,
             components: [],
-        });*/
+        });
     },
 };
