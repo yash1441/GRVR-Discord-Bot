@@ -40,6 +40,10 @@ module.exports = {
             process.env.FEISHU_SECRET
         );
 
+        logger.debug('Reward Base: ' + serverData[interaction.guildId].rewardBase);
+        logger.debug('Reward Table: ' + serverData[interaction.guildId].rewardTable);
+        logger.debug('Reward Channel: ' + serverData[interaction.guildId].rewardChannel);
+
         const rewardData = JSON.parse(
             await feishu.getRecords(
                 tenantToken,
